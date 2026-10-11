@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Task {
@@ -23,7 +25,13 @@ public class Task {
 @Id
 @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+
+
+@NotBlank(message="Title cannot blank")
+@Size(max= 100 , message="title cannot be exceed 100 characters")
 	private String title;
+
+@Size(max = 500, message = "Description cannot exceed 500 characters")
 	private String description;
 	private boolean completed;
 	

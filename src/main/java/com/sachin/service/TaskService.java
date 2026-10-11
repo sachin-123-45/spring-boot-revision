@@ -3,10 +3,11 @@ package com.sachin.service;
 import org.springframework.stereotype.Service;
 
 import com.sachin.entity.Task;
+import com.sachin.exception.TaskNotFoundException;
 import com.sachin.repository.TaskRepository;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class TaskService {
@@ -25,8 +26,11 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public Optional<Task> getTaskById(Long id) {
-        return taskRepository.findById(id);
+    public Task getTaskById(Long id) {
+        return taskRepository.findById(id)
+                .orElseThrow(() ->
+                    new TaskNotFoundException("Task not found with id: " + id)
+                );
     }
 
     public void deleteTask(Long id) {

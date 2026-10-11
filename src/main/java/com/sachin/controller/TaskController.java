@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.*;
 
 import com.sachin.entity.Task;
 import com.sachin.service.TaskService;
+
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 @RestController
@@ -18,8 +21,8 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<Task> createTask(@RequestBody Task task
+    @PostMapping()
+    public ResponseEntity<Task> createTask(@Valid @RequestBody Task task
     		) {
         Task savedTask = taskService.createTask(task);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTask);
@@ -30,12 +33,13 @@ public class TaskController {
         return taskService.getAllTasks();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
-        return taskService.getTaskById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
+
+@GetMapping("/{id}")
+public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
+    Task task = taskService.getTaskById(id);
+    return ResponseEntity.ok(task);
+}
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
