@@ -11,6 +11,12 @@ import jakarta.validation.Valid;
 
 import java.util.List;
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.domain.Sort;
+
 @RestController
 @RequestMapping("/api/tasks")
 public class TaskController {
@@ -46,5 +52,22 @@ public ResponseEntity<Task> getTaskById(@PathVariable Long id) {
         taskService.deleteTask(id);
         return ResponseEntity.noContent().build();
     }
+    
+    
+    @PutMapping("/{id}")
+  public ResponseEntity<Task> updateTask(@Valid @PathVariable Long id, @RequestBody Task updateTask )
+  {
+    Task  savedTask= 	taskService.updateTask(id, updateTask);
+    return ResponseEntity.ok(savedTask);
+  }
+    
+    
+    
+    @GetMapping("/page")
+    public Page<Task> getTasksPage(@PageableDefault(size = 5,sort = "id",  direction = Sort.Direction.ASC ) Pageable pageable) {
+
+        return taskService.getAllTasks(pageable);
+    }
+    
 }
 

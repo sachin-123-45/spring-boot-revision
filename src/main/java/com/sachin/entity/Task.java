@@ -36,15 +36,10 @@ public class Task {
 	private boolean completed;
 	
 
-
-
 public Task()
 {
 	
 }
-
-
-
 
 public String getTitle() {
 	return title;
