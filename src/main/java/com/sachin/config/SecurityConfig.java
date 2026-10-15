@@ -4,7 +4,9 @@ package com.sachin.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -25,7 +27,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http)
     http
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/api/auth/register").permitAll()
+            .requestMatchers("/api/auth/register" , "/api/auth/login").permitAll()
             .anyRequest().authenticated()
         )
         .httpBasic(Customizer.withDefaults());
@@ -37,6 +39,20 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http)
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+    
+    
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)throws Exception
+    {
+    	
+    	return config.getAuthenticationManager();
+    	
+    }
+    
+    
+    
+    
+    
     
     
     

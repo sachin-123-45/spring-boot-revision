@@ -10,14 +10,19 @@ import org.springframework.web.bind.annotation.*;
 import com.sachin.entity.AppUser;
 import com.sachin.service.UserService;
 
+import org.springframework.security.authentication.AuthenticationManager;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
     private final UserService userService;
 
-    public AuthController(UserService userService) {
+ 
+    
+    public AuthController( UserService userService, AuthenticationManager authenticationManager) {
         this.userService = userService;
+     
     }
 
     @PostMapping("/register")
@@ -32,4 +37,19 @@ public class AuthController {
                         "message", "User registered successfully"
                 ));
     }
+    
+    
+
+@PostMapping("/login")
+public ResponseEntity<?> login( @RequestBody AppUser user) {
+	
+ 
+	return ResponseEntity.ok(userService.login(user));
+  
+}
+
+    
+    
+    
+    
 }
